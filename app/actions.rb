@@ -5,6 +5,7 @@ helpers do
 end
 
 get '/' do
+  pp "Hello"
   @finstagram_posts = FinstagramPost.order(created_at: :desc)
   erb(:index)
 end
