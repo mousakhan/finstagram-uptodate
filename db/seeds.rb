@@ -1,35 +1,27 @@
-user_sharky = User.new({ username: "sharky_j", 
-                        avatar_url: "http://naserca.com/images/sharky_j.jpg",
-                        email: "sharky@lhl.com",
-                        password: "abc123"})
-user_sharky.save
-sharky_fp = FinstagramPost.new({ photo_url: "http://naserca.com/images/shark.jpg",
-                                 user_id: user_sharky.id })
-sharky_fp.save
+users = [
+  { username: "sharky_j", avatar_url: "http://naserca.com/images/sharky_j.jpg", email: "sharky_j@gmail.com", password: "abcd" },
+  { username: "kirk_whalum", avatar_url: "http://naserca.com/images/kirk_whalum.jpg", email: "kirk_w@gmail.com", password: "abcd" },
+  { username: "marlin_peppa", avatar_url: "http://naserca.com/images/marlin_peppa.jpg", email: "marlin_p@gmail.com", password: "abcd" }
+]
 
+finstagram_posts = [
+  { photo_url: "http://naserca.com/images/shark.jpg"},
+  { photo_url: "http://naserca.com/images/whale.jpg"},
+  { photo_url: "http://naserca.com/images/marlin.jpg"}
+]
 
-user_kirk = User.new({ username: "kirk_whalum", 
-                        avatar_url: "http://naserca.com/images/kirk_whalum.jpg",
-                        email: "kirk@lhl.com",
-                        password: "abc123" })
-user_kirk.save
+puts "Seeding database..."
 
-kirk_fp = FinstagramPost.new({ photo_url: "http://naserca.com/images/whale.jpg", user_id: user_kirk.id })
-kirk_fp.save
+# create Users and FinstagramPosts
+users.each_with_index do |user, index|
+  # create new User
+  user_record = User.create(user)
+  # get a finstagram_post
+  finstagram_post = finstagram_posts[index]
+  # modify finstagram_post's user_id from created record
+  finstagram_post[:user_id] = user_record.id
+  # create new FinstagramPost
+  FinstagramPost.create(finstagram_post)
+end
 
-
-user_peppa = User.new({ username: "marlin_peppa", 
-                        avatar_url: "http://naserca.com/images/marlin_peppa.jpg",
-                        email: "peppa@lhl.com",
-                        password: "abc123" })
-user_peppa.save
-
-peppa_fp = FinstagramPost.new({ photo_url: "http://naserca.com/images/marlin.jpg", user_id: user_peppa.id })
-peppa_fp.save
-
-
-comment = Comment.new({ user_id: user_sharky.id, finstagram_post_id: sharky_fp.id, text: "this is awesome!" })
-comment.save
-
-like = Like.new({ user_id: user_sharky.id, finstagram_post_id: sharky_fp.id })
-like.save
+puts "Seeding complete."
